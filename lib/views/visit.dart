@@ -3,13 +3,13 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:sc_pharma_app/colors.dart';
 import 'package:sc_pharma_app/widgets/card.dart';
 
-class ExpenseRecorder extends StatefulWidget {
+class Visit extends StatefulWidget {
 
   @override
-  State<ExpenseRecorder> createState() => _ExpenseRecorderState();
+  State<Visit> createState() => _VisitState();
 }
 
-class _ExpenseRecorderState extends State<ExpenseRecorder> {
+class _VisitState extends State<Visit> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -39,7 +39,7 @@ class _ExpenseRecorderState extends State<ExpenseRecorder> {
 
           },
         ),
-        title: Text("Expense Recorder",
+        title: Text("Visit Form",
         style: GoogleFonts.openSans(
           color: TITLECOLOR,
           fontWeight: FontWeight.w600,
@@ -55,15 +55,15 @@ class _ExpenseRecorderState extends State<ExpenseRecorder> {
           return Padding(
             padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
             child: CustomCard(bgColor: cardBgColor, images: [
-              Image.asset("assets/images/calendar.png", width: 25, height: 25,),
-              Image.asset("assets/images/transaction.png", width: 25, height: 25,),
-              Image.asset("assets/images/expenses.png", width: 25, height: 25,),
-              Image.asset("assets/images/rs.png", width: 25, height: 25,),
+              Image.asset("assets/images/capsule.png", width: 25, height: 25,),
+              Image.asset("assets/images/visit.png", width: 25, height: 25,),
+              Image.asset("assets/images/comments.png", width: 25, height: 25,),
+              Image.asset("assets/images/quantity.png", width: 25, height: 25,),
             ], fields: [
-              "Fri 28-05-2024",
-              "Trans.No., T01",
-              "Food",
-              "350",
+              "Ascard, Cardic",
+              "Visit Type, Clinic",
+              "Remarks, abc",
+              "Qty.Issued, 3",
             ],),
           );
         },
