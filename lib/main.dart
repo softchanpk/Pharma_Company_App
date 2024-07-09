@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
-<<<<<<< HEAD
 import 'package:sc_pharma_app/views/expense_recorder.dart';
-=======
-import 'package:sc_pharma_app/views/login.dart';
->>>>>>> d5de77ce17e4ac57570c9fdfff5e1dc0afdb56da
 
 void main() {
   runApp(const MyApp());
@@ -15,7 +11,6 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-<<<<<<< HEAD
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
@@ -42,13 +37,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-=======
-    return const MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Pharma App',
-
-      home: Login() );
-  }
-}
-
->>>>>>> d5de77ce17e4ac57570c9fdfff5e1dc0afdb56da
