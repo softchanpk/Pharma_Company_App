@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class CustomCard extends StatelessWidget {
   final Color bgColor;
-  CustomCard({required this.bgColor});
+  final List<Image> images;
+  final List<String> fields;
+  CustomCard({required this.bgColor, required this.images, required this.fields});
 
   @override
   Widget build(BuildContext context) {
@@ -15,25 +18,18 @@ class CustomCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(15)
       ),
       child: Column(
-        children: [
-          Expanded(child: ListTile(
-            leading: Image.asset("assets/images/transaction.png"),
-            title: Text("Trans.No., T01"),
-          )),
-          Expanded(child: ListTile(
-            leading: Image.asset("assets/images/expenses.png"),
-            title: Text("Food"),
-          )),
-          Expanded(child: ListTile(
-            leading: Image.asset("assets/images/rs.png"),
-            title: Text("350"),
-          )),
-          Expanded(child: ListTile(
-            leading: Image.asset("assets/images/calendar.png"),
-            title: Text("Fri 28-05-2024"),
-          ))
-        ],
+        children: _generateItems(),
       ),
     );
+  }
+  List<Widget> _generateItems(){
+   return List.generate(images.length, (index){
+      return Expanded(child: ListTile(
+        leading: images[index],
+        title: Text(fields[index],
+        style: GoogleFonts.openSans(),
+        ),
+      ));
+    });
   }
 }

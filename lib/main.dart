@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:sc_pharma_app/views/expense_recorder.dart';
+import 'package:sc_pharma_app/views/visit.dart';
+import 'package:sc_pharma_app/views/visit_schduele.dart';
 
 void main() {
   runApp(const MyApp());
@@ -33,7 +36,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: ExpenseRecorder(),
+      home: VisitSchduele(),
     );
   }
 }

@@ -3,13 +3,13 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:sc_pharma_app/colors.dart';
 import 'package:sc_pharma_app/widgets/card.dart';
 
-class ExpenseRecorder extends StatefulWidget {
+class VisitSchduele extends StatefulWidget {
 
   @override
-  State<ExpenseRecorder> createState() => _ExpenseRecorderState();
+  State<VisitSchduele> createState() => _VisitSchdueleState();
 }
 
-class _ExpenseRecorderState extends State<ExpenseRecorder> {
+class _VisitSchdueleState extends State<VisitSchduele> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -39,7 +39,7 @@ class _ExpenseRecorderState extends State<ExpenseRecorder> {
 
           },
         ),
-        title: Text("Expense Recorder",
+        title: Text("Visit Scheduele",
         style: GoogleFonts.openSans(
           color: TITLECOLOR,
           fontWeight: FontWeight.w600,
@@ -56,14 +56,14 @@ class _ExpenseRecorderState extends State<ExpenseRecorder> {
             padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
             child: CustomCard(bgColor: cardBgColor, images: [
               Image.asset("assets/images/calendar.png", width: 25, height: 25,),
-              Image.asset("assets/images/transaction.png", width: 25, height: 25,),
-              Image.asset("assets/images/expenses.png", width: 25, height: 25,),
-              Image.asset("assets/images/rs.png", width: 25, height: 25,),
+              Image.asset("assets/images/map_pin.png", width: 25, height: 25,),
+              Image.asset("assets/images/goal.png", width: 25, height: 25,),
+              Image.asset("assets/images/check.png", width: 25, height: 25,),
             ], fields: [
-              "Fri 28-05-2024",
-              "Trans.No., T01",
-              "Food",
-              "350",
+              "Fri 28-06-2024",
+              "Imam Clinic, Malir",
+              "Purpose",
+              "Status, Completed",
             ],),
           );
         },
