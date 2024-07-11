@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:sc_pharma_app/views/login.dart';
+import 'package:sc_pharma_app/views/reports_menu_screen.dart';
+import 'package:sc_pharma_app/views/tag_location_screen.dart';
 
 class NavigationDrawerScreen extends StatelessWidget {
   const NavigationDrawerScreen({Key? key}) : super(key: key);
@@ -28,15 +30,20 @@ class NavigationDrawerScreen extends StatelessWidget {
 
               ), accountEmail: const Text(''),
             ),
-            ListTile(
-              leading: Image.asset('assets/images/taglocation.png',height: 25,),
-              title: Text('Tag Your Location',style: GoogleFonts.openSans(
-                textStyle: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w500
+            InkWell(
+              onTap: (){
+                Navigator.pushReplacement(context, PageTransition(child: const TagLocationScreen(), type: PageTransitionType.rightToLeft));
+              },
+              child: ListTile(
+                leading: Image.asset('assets/images/taglocation.png',height: 25,),
+                title: Text('Tag Your Location',style: GoogleFonts.openSans(
+                  textStyle: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500
 
-                )
-              ),),
+                  )
+                ),),
+              ),
             ),
             ListTile(
               leading: Image.asset('assets/images/visitdrawer.png',height: 25,),
@@ -68,15 +75,20 @@ class NavigationDrawerScreen extends StatelessWidget {
                   )
               ),),
             ),
-            ListTile(
-              leading: Image.asset('assets/images/reportdrawer.png',height: 25,),
-              title: Text('Reports',style: GoogleFonts.openSans(
-                  textStyle: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500
+            InkWell(
+              onTap: (){
+                Navigator.pushReplacement(context, PageTransition(child: const ReportsMenuScreen(), type: PageTransitionType.rightToLeft));
+              },
+              child: ListTile(
+                leading: Image.asset('assets/images/reportdrawer.png',height: 25,),
+                title: Text('Reports',style: GoogleFonts.openSans(
+                    textStyle: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500
 
-                  )
-              ),),
+                    )
+                ),),
+              ),
             ),
              SizedBox(height: size.height * 0.2,),
              Padding(

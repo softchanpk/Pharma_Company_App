@@ -21,19 +21,33 @@ class _LoginState extends State<Login> {
             width: size.width,
             height: size.height,
             decoration: const BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage('assets/images/loginback.png',
+                gradient: LinearGradient(
+                    colors: [
+                      Color(0xff420331),
+                      Color(0xffca589d),
+                      Color(0xff420331),
+                    ],
+                    begin: Alignment.bottomLeft,
+                    end: Alignment.topRight
+
+                )
+              /* image: DecorationImage(
+                image: AssetImage('assets/images/loginback2.png',
                 ),
                 fit: BoxFit.fill
-              )
+              )*/
             ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(left: 10.0, right: 10.0),
+                  padding: const EdgeInsets.all(10.0),
+                  child: Image.asset('assets/images/logo.png',height: size.height * 0.2,),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 10.0, right: 10.0 ,),
                   child: Card(
-                    color: Colors.white,
+                    color: Colors.white38,
                       child: Container(
                         height: size.height * 0.5,
                         width: size.width,
@@ -45,11 +59,11 @@ class _LoginState extends State<Login> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              SizedBox(height: size.height * 0.03,),
+                              SizedBox(height: size.height * 0.02,),
                                 Text('Log In',
                                   style:GoogleFonts.openSans(
                                  textStyle: const TextStyle(fontWeight: FontWeight.bold,
-                                   color: Color(0xff004C56),
+                                   color: Color(0xff2d2f44),
                                    fontSize: 26,)
                                ),
                                 ),
@@ -59,14 +73,17 @@ class _LoginState extends State<Login> {
                                 child: Container(
                                   height: size.height * 0.07,
                                   child: TextFormField(
-                                    cursorColor: const Color(0xff004C56),
+
+                                    cursorColor: const Color(0xff2d2f44),
                                     decoration: const InputDecoration(
+                                        fillColor: Colors.white,
+                                        filled: true,
+                                        prefixIcon: Icon(Icons.account_circle_outlined,color: Color(0xff2d2f44),size: 20,),
                                         focusedBorder:OutlineInputBorder(
-                                            borderSide: BorderSide(color: Color(0xff004C56)),
-                                            borderRadius: BorderRadius.all(Radius.circular(12))
+                                            borderRadius: BorderRadius.all(Radius.circular(15))
                                         ),
                                         border: OutlineInputBorder(
-                                            borderRadius: BorderRadius.all(Radius.circular(12)),
+                                            borderRadius: BorderRadius.all(Radius.circular(15)),
         
                                         ),
         
@@ -82,14 +99,19 @@ class _LoginState extends State<Login> {
                                 child: Container(
                                   height: size.height * 0.07,
                                   child: TextFormField(
-                                    cursorColor: const Color(0xff004C56),
+                                    cursorColor: const Color(0xff2d2f44),
                                     decoration: const InputDecoration(
+                                        fillColor: Colors.white,
+                                        filled: true,
+                                        prefixIcon: Icon(Icons.vpn_key_outlined,color: Color(0xff2d2f44),size: 20,),
+                                        suffixIcon: Icon(Icons.visibility_off_outlined,color: Color(0xff2d2f44),size: 20,),
                                         focusedBorder:OutlineInputBorder(
-                                            borderSide: BorderSide(color: Color(0xff004C56)),
-                                            borderRadius: BorderRadius.all(Radius.circular(12))
+                                            borderSide: BorderSide(color: Color(0xff2d2f44)),
+                                            borderRadius: BorderRadius.all(Radius.circular(15))
                                         ),
                                         border: OutlineInputBorder(
-                                            borderRadius: BorderRadius.all(Radius.circular(12))
+                                            borderSide: BorderSide(color:Colors.white),
+                                            borderRadius: BorderRadius.all(Radius.circular(15))
                                         ),
         
                                         hintText: 'Password',
@@ -102,12 +124,16 @@ class _LoginState extends State<Login> {
                              // SizedBox(height: size.height * 0.01,),
                               Align(
                                 alignment: Alignment.bottomRight,
-                                child: TextButton(onPressed: (){},
-                                    child: Text('Forgot Password?',style: GoogleFonts.roboto(
-                                      textStyle: const TextStyle(fontSize: 12),
-                                      fontWeight: FontWeight.w400,
-                                      color: const Color(0xff004C56)
-                                    ),)),
+                                child: Padding(
+                                  padding: const EdgeInsets.only(top: 8.0,right: 18.0),
+                                  child: Text('Forgot Password?',style: GoogleFonts.openSans(
+                                    textStyle: const TextStyle(
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.w700,
+                                      color: Color(0xff2d2f44)
+                                    )
+                                  ),),
+                                )
                               ),
                               SizedBox(height: size.height * 0.03,),
                               InkWell(
@@ -118,8 +144,8 @@ class _LoginState extends State<Login> {
                                   height: size.height * 0.06,
                                   width: size.width * 0.4,
                                   decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(12),
-                                    color: const Color(0xff04899B),
+                                    borderRadius: BorderRadius.circular(15),
+                                    color: const Color(0xff2d2f44),
                                   ),
                                   child: Center(
                                     child: Text('LogIn',style: GoogleFonts.openSans(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sc_pharma_app/views/login.dart';
+import 'package:sc_pharma_app/views/splash_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,7 +16,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Pharma App',
 
-      home: Login() );
+      home: SplashScreen() );
   }
 }
 
