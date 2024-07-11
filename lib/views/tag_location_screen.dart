@@ -23,11 +23,11 @@ class _TagLocationScreenState extends State<TagLocationScreen> {
             textStyle: const TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.w700,
-              color: Color(0xff004C56),
+              color: Color(0xff2d2f44),
             )
           ),),
         ),
-        iconTheme: const IconThemeData(color: Color(0xff004C56),),
+        iconTheme: const IconThemeData(color: Color(0xff2d2f44),),
       ),
       drawer: const NavigationDrawerScreen(),
       body: const Center(child: Text('Welcome'),),

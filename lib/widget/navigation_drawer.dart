@@ -17,17 +17,33 @@ class NavigationDrawerScreen extends StatelessWidget {
           children: [
 
             UserAccountsDrawerHeader(
-              accountName: Text('Mr.Jawwad',style: GoogleFonts.openSans(
+              accountName: Text('Hafiz Muhammad Yaseen',style: GoogleFonts.openSans(
                 textStyle: const TextStyle(
-                  fontSize: 26,
+                  fontSize: 20,
                   fontWeight: FontWeight.w700,
-                  color: Color(0xff004C56),
+                  color: Color(0xff2d2f44),
                 )
               ),),
               decoration: const BoxDecoration(
-                image: DecorationImage(image: AssetImage('assets/images/drawer.png'),
+                /*image: DecorationImage(image: AssetImage('assets/images/drawerback.png'),
                 fit: BoxFit.cover),
+*/            gradient: LinearGradient(
+                  colors: [
+                    Color(0xff420331),
+                    Color(0xffca589d),
+                   // Color(0xff420331),
 
+
+                  ],
+                  begin: Alignment.topRight,
+                  end: Alignment.bottomLeft,
+                /*  stops: [
+                    0.1,
+                    0.1,
+                    0.0
+                  ]*/
+
+              )
               ), accountEmail: const Text(''),
             ),
             InkWell(
@@ -35,42 +51,46 @@ class NavigationDrawerScreen extends StatelessWidget {
                 Navigator.pushReplacement(context, PageTransition(child: const TagLocationScreen(), type: PageTransitionType.rightToLeft));
               },
               child: ListTile(
-                leading: Image.asset('assets/images/taglocation.png',height: 25,),
+                leading: Image.asset('assets/images/taglocation.png',height: 25,color: const Color(0xff420331),),
                 title: Text('Tag Your Location',style: GoogleFonts.openSans(
                   textStyle: const TextStyle(
                     fontSize: 16,
-                    fontWeight: FontWeight.w500
+                      color: Color(0xff2d2f44),
+                      fontWeight: FontWeight.w700
 
                   )
                 ),),
               ),
             ),
             ListTile(
-              leading: Image.asset('assets/images/visitdrawer.png',height: 25,),
+              leading: Image.asset('assets/images/visitdrawer.png',height: 25,color: const Color(0xff420331),),
               title: Text('Visit',style: GoogleFonts.openSans(
                   textStyle: const TextStyle(
                       fontSize: 16,
-                      fontWeight: FontWeight.w500
+                      color: Color(0xff2d2f44),
+                      fontWeight: FontWeight.w700
 
                   )
               ),),
             ),
             ListTile(
-              leading: Image.asset('assets/images/scheduledrawer.png',height: 25,),
+              leading: Image.asset('assets/images/scheduledrawer.png',height: 25,color: const Color(0xff420331),),
               title: Text('Schedule',style: GoogleFonts.openSans(
                   textStyle: const TextStyle(
                       fontSize: 16,
-                      fontWeight: FontWeight.w500
+                      color: Color(0xff2d2f44),
+                      fontWeight: FontWeight.w700
 
                   )
               ),),
             ),
             ListTile(
-              leading: Image.asset('assets/images/expensedrawer.png',height: 25,),
+              leading: Image.asset('assets/images/expensedrawer.png',height: 25,color: const Color(0xff420331),),
               title: Text('Expense Recording',style: GoogleFonts.openSans(
                   textStyle: const TextStyle(
+                      color: Color(0xff2d2f44),
                       fontSize: 16,
-                      fontWeight: FontWeight.w500
+                      fontWeight: FontWeight.w700
 
                   )
               ),),
@@ -80,11 +100,12 @@ class NavigationDrawerScreen extends StatelessWidget {
                 Navigator.pushReplacement(context, PageTransition(child: const ReportsMenuScreen(), type: PageTransitionType.rightToLeft));
               },
               child: ListTile(
-                leading: Image.asset('assets/images/reportdrawer.png',height: 25,),
+                leading: Image.asset('assets/images/reportdrawer.png',height: 25,color: const Color(0xff420331),),
                 title: Text('Reports',style: GoogleFonts.openSans(
                     textStyle: const TextStyle(
+                        color: Color(0xff2d2f44),
                         fontSize: 16,
-                        fontWeight: FontWeight.w500
+                        fontWeight: FontWeight.w700
 
                     )
                 ),),
@@ -105,7 +126,7 @@ class NavigationDrawerScreen extends StatelessWidget {
                       width: size.width * 0.35,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(12),
-                        color: const Color(0xff04899B),
+                        color: const Color(0xff2d2f44),
                       ),
                       child: Center(
                         child: Text('LogOut',style: GoogleFonts.openSans(
