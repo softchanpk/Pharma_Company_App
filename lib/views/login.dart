@@ -1,10 +1,12 @@
 import'package:flutter/material.dart';
+import 'package:get/get.dart';
 import'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:sc_pharma_app/controller/login_controller.dart';
 import 'package:sc_pharma_app/views/tag_location_screen.dart';
 
 class Login extends StatefulWidget {
-  const Login({Key? key}) : super(key: key);
+  const Login({super.key});
 
   @override
   State<Login> createState() => _LoginState();
@@ -12,6 +14,7 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  LoginController controller = Get.put(LoginController());
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -98,27 +101,40 @@ class _LoginState extends State<Login> {
                                 padding: const EdgeInsets.only(left: 12.0,right: 12.0),
                                 child: Container(
                                   height: size.height * 0.07,
-                                  child: TextFormField(
+                                  child: Obx((){
+                                    return TextFormField(
+                                    obscureText: controller.isHidePassword.value,
                                     cursorColor: const Color(0xff2d2f44),
-                                    decoration: const InputDecoration(
+                                    decoration:  InputDecoration(
                                         fillColor: Colors.white,
                                         filled: true,
-                                        prefixIcon: Icon(Icons.vpn_key_outlined,color: Color(0xff2d2f44),size: 20,),
-                                        suffixIcon: Icon(Icons.visibility_off_outlined,color: Color(0xff2d2f44),size: 20,),
-                                        focusedBorder:OutlineInputBorder(
+                                        prefixIcon: const Icon(Icons.vpn_key_outlined,color: Color(0xff2d2f44),size: 20,),
+                                        suffixIcon: InkWell(
+                                            onTap: (){
+                                              controller.isHidePassword.value = !controller.isHidePassword.value;
+                                            },
+                                            child: Icon(
+                                              controller.isHidePassword.value ?
+                                              Icons.visibility_off_outlined :
+                                              Icons.visibility_outlined,
+                                              color: const Color(0xff2d2f44),
+                                              size: 20,
+                                            )),
+                                        focusedBorder:const OutlineInputBorder(
                                             borderSide: BorderSide(color: Color(0xff2d2f44)),
                                             borderRadius: BorderRadius.all(Radius.circular(15))
                                         ),
-                                        border: OutlineInputBorder(
+                                        border: const OutlineInputBorder(
                                             borderSide: BorderSide(color:Colors.white),
                                             borderRadius: BorderRadius.all(Radius.circular(15))
                                         ),
-        
+
                                         hintText: 'Password',
-                                        hintStyle: TextStyle(fontSize: 14)
+                                        hintStyle: const TextStyle(fontSize: 14)
                                     ),
-        
-                                  ),
+
+                                  );
+                                  })
                                 ),
                               ),
                              // SizedBox(height: size.height * 0.01,),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../widget/navigation_drawer.dart';
+import '../widgets/navigation_drawer.dart';
 
 class ReportsMenuScreen extends StatelessWidget {
   const ReportsMenuScreen({Key? key}) : super(key: key);

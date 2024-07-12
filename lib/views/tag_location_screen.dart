@@ -1,9 +1,7 @@
-import 'dart:ui';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:sc_pharma_app/widget/navigation_drawer.dart';
+import 'package:sc_pharma_app/widgets/navigation_drawer.dart';
 
 class TagLocationScreen extends StatefulWidget {
   const TagLocationScreen({Key? key}) : super(key: key);
