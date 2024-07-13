@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:sc_pharma_app/views/expense_recorder.dart';
 import 'package:sc_pharma_app/views/login.dart';
 import 'package:sc_pharma_app/views/reports_menu_screen.dart';
 import 'package:sc_pharma_app/views/tag_location_screen.dart';
+import 'package:sc_pharma_app/views/visit_schduele.dart';
 
 class NavigationDrawerScreen extends StatelessWidget {
   const NavigationDrawerScreen({Key? key}) : super(key: key);
@@ -62,16 +64,21 @@ class NavigationDrawerScreen extends StatelessWidget {
                 ),),
               ),
             ),
-            ListTile(
-              leading: Image.asset('assets/images/visitdrawer.png',height: 25,color: const Color(0xff420331),),
-              title: Text('Visit',style: GoogleFonts.openSans(
-                  textStyle: const TextStyle(
-                      fontSize: 16,
-                      color: Color(0xff2d2f44),
-                      fontWeight: FontWeight.w700
+            InkWell(
+              onTap: (){
+                Navigator.pushReplacement(context, PageTransition(child: VisitSchduele(), type: PageTransitionType.rightToLeft));
+              },
+              child: ListTile(
+                leading: Image.asset('assets/images/visitdrawer.png',height: 25,color: const Color(0xff420331),),
+                title: Text('Visit',style: GoogleFonts.openSans(
+                    textStyle: const TextStyle(
+                        fontSize: 16,
+                        color: Color(0xff2d2f44),
+                        fontWeight: FontWeight.w700
 
-                  )
-              ),),
+                    )
+                ),),
+              ),
             ),
             ListTile(
               leading: Image.asset('assets/images/scheduledrawer.png',height: 25,color: const Color(0xff420331),),
@@ -84,16 +91,21 @@ class NavigationDrawerScreen extends StatelessWidget {
                   )
               ),),
             ),
-            ListTile(
-              leading: Image.asset('assets/images/expensedrawer.png',height: 25,color: const Color(0xff420331),),
-              title: Text('Expense Recording',style: GoogleFonts.openSans(
-                  textStyle: const TextStyle(
-                      color: Color(0xff2d2f44),
-                      fontSize: 16,
-                      fontWeight: FontWeight.w700
+            InkWell(
+              onTap: (){
+                Navigator.pushReplacement(context, PageTransition(child: ExpenseRecorder(), type: PageTransitionType.rightToLeft));
+              },
+              child: ListTile(
+                leading: Image.asset('assets/images/expensedrawer.png',height: 25,color: const Color(0xff420331),),
+                title: Text('Expense Recording',style: GoogleFonts.openSans(
+                    textStyle: const TextStyle(
+                        color: Color(0xff2d2f44),
+                        fontSize: 16,
+                        fontWeight: FontWeight.w700
 
-                  )
-              ),),
+                    )
+                ),),
+              ),
             ),
             InkWell(
               onTap: (){

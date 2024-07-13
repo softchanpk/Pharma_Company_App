@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:sc_pharma_app/colors.dart';
 import 'package:sc_pharma_app/widgets/card.dart';
 import 'package:badges/badges.dart' as badge;
+import 'package:sc_pharma_app/widgets/navigation_drawer.dart';
 
 import '../widgets/colors.dart';
 
@@ -21,22 +21,19 @@ class _VisitState extends State<Visit> {
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: Colors.white,
-        leading: IconButton(
-          icon: Icon(Icons.menu,
-          color: BUTTONCOLOR,
-            size: 30,
-          ),
-          onPressed: (){
-          },
-        ),
         title: Text("Visit Form",
         style: GoogleFonts.openSans(
           color: BUTTONCOLOR,
           fontWeight: FontWeight.w600,
           fontSize: 25
         ),
+
+        ),
+        iconTheme: IconThemeData(
+          color: BUTTONCOLOR
         ),
       ),
+      drawer: NavigationDrawerScreen(),
       body: Container(
         width: size.width,
         height: size.height,
@@ -87,7 +84,8 @@ class _VisitState extends State<Visit> {
               child: Text("x",
                 style: TextStyle(
                     fontSize: 25,
-                    fontWeight: FontWeight.w700
+                    fontWeight: FontWeight.w700,
+                    color: Colors.white
                 ),
               ),
             ),
@@ -185,9 +183,9 @@ class _VisitState extends State<Visit> {
                       ),
                     ),
                     SizedBox(height: size.height * 0.03,),
-                    ElevatedButton(onPressed: (){}, child: Text("Save", style: GoogleFonts.openSans(
+                    ElevatedButton(onPressed: (){}, child: Text("Submit", style: GoogleFonts.openSans(
                         color: Colors.white,
-                        fontSize: 25,
+                        fontSize: 22,
                         fontWeight: FontWeight.w600
                     ),), style: ElevatedButton.styleFrom(
                         shape: RoundedRectangleBorder(

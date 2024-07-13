@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:sc_pharma_app/colors.dart';
 import 'package:sc_pharma_app/widgets/card.dart';
 import 'package:badges/badges.dart' as badge;
+import 'package:sc_pharma_app/widgets/navigation_drawer.dart';
 
 import '../widgets/colors.dart';
 
@@ -20,15 +21,6 @@ class _VisitSchdueleState extends State<VisitSchduele> {
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: Colors.white,
-        leading: IconButton(
-          icon: Icon(Icons.menu,
-          color: BUTTONCOLOR,
-            size: 30,
-          ),
-          onPressed: (){
-
-          },
-        ),
         title: Text("Visit Scheduele",
         style: GoogleFonts.openSans(
           color: BUTTONCOLOR,
@@ -36,7 +28,11 @@ class _VisitSchdueleState extends State<VisitSchduele> {
           fontSize: 25
         ),
         ),
+        iconTheme: IconThemeData(
+            color: BUTTONCOLOR
+        ),
       ),
+      drawer: NavigationDrawerScreen(),
       body: Container(
         width: size.width,
         height: size.height,
@@ -47,7 +43,7 @@ class _VisitSchdueleState extends State<VisitSchduele> {
               showModal();
             },
             child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
+              padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 15),
               child: CustomCard(bgColor: cardBgColor, images: [
                 Image.asset("assets/images/calendar.png", width: 25, height: 25, color: Colors.white,),
                 Image.asset("assets/images/transaction.png", width: 25, height: 25, color: Colors.white,),
@@ -87,7 +83,8 @@ class _VisitSchdueleState extends State<VisitSchduele> {
               child: Text("x",
                 style: TextStyle(
                     fontSize: 25,
-                    fontWeight: FontWeight.w700
+                    fontWeight: FontWeight.w700,
+                    color: Colors.white
                 ),
               ),
             ),
@@ -95,7 +92,7 @@ class _VisitSchdueleState extends State<VisitSchduele> {
               Navigator.pop(context);
             },
           ),
-          child: SingleChildScrollView(
+
             child: Container(
               width: size.width,
               height: size.height * 0.85,
@@ -103,120 +100,239 @@ class _VisitSchdueleState extends State<VisitSchduele> {
                 gradient: CARDGRADIENT,
                 borderRadius: BorderRadius.circular(20)
               ),
-              child: Form(
-                key: formKey,
-                child: Column(
-                  children: [
-                    SizedBox(height: size.height * 0.05,),
-                    ListTile(
-                      leading: Image.asset("assets/images/calendar.png", width: 25, height: 25, color: Colors.white,),
-                      title: Container(
-                        decoration: BoxDecoration(
-                          border: Border(
-                            bottom: BorderSide(color: Colors.black)
-                          ),
-
-                        ),
-                        child: TextFormField(
-                          decoration: InputDecoration(
-                            border: InputBorder.none,
-                            suffixIcon: InkWell(onTap: (){
-                              showDatePicker(context: context, firstDate: DateTime.now(), lastDate: DateTime.now());
-                            }, child: Image.asset("assets/images/calendar.png", width: 25, height: 25,),),
-                            hintText: "Date"
-                          ),
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: size.height * 0.03,),
-                    ListTile(
-                      leading: Image.asset("assets/images/clinic.png", width: 25, height: 25, color: Colors.white,),
-                      title: Container(
-                        decoration: BoxDecoration(
+              child: SingleChildScrollView(
+                child: Form(
+                  key: formKey,
+                  child: Column(
+                    children: [
+                      SizedBox(height: size.height * 0.03,),
+                      ListTile(
+                        leading: Icon(Icons.transform_outlined,size: 25,color: Colors.white,),
+                        title: Container(
+                          decoration: BoxDecoration(
                             border: Border(
                                 bottom: BorderSide(color: Colors.black)
                             ),
 
-                        ),
-                        child: TextFormField(
-                          decoration: InputDecoration(
-                              border: InputBorder.none,
-                              hintText: "Clinic"
+                          ),
+                          child: TextFormField(
+                            style: TextStyle(
+                              color: Colors.white
+                            ),
+                            cursorColor: Colors.white,
+                            decoration: InputDecoration(
+                                border: InputBorder.none,
+                                hintStyle: TextStyle(color: Colors.white),
+                                hintText: "Trans No:"
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    SizedBox(height: size.height * 0.03,),
-                    ListTile(
-                      leading: Image.asset("assets/images/goal.png", width: 25, height: 25, color: Colors.white),
-                      title: Container(
-                        decoration: BoxDecoration(
+                      SizedBox(height: size.height * 0.02,),
+                      ListTile(
+                        leading: Image.asset("assets/images/calendar.png", width: 25, height: 25, color: Colors.white,),
+                        title: Container(
+                          decoration: BoxDecoration(
+                            border: Border(
+                              bottom: BorderSide(color: Colors.black)
+                            ),
+
+                          ),
+                          child: TextFormField(
+                            cursorColor: Colors.white,
+                            style: TextStyle(color: Colors.white),
+                            decoration: InputDecoration(
+                              border: InputBorder.none,
+                              suffixIcon: InkWell(onTap: (){
+                                showDatePicker(context: context, firstDate: DateTime.now(), lastDate: DateTime.now());
+                              }, child: Image.asset("assets/images/calendar.png", width: 25, height: 25,color: Colors.white,),),
+                              hintText: "Schedule Date",
+                              hintStyle: TextStyle(color: Colors.white)
+
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: size.height * 0.02,),
+                      ListTile(
+                        leading: Image.asset("assets/images/clinic.png", width: 25, height: 25, color: Colors.white,),
+                        title: Container(
+                          decoration: BoxDecoration(
+                              border: Border(
+                                  bottom: BorderSide(color: Colors.black)
+                              ),
+
+                          ),
+                          child: TextFormField(
+                            decoration: InputDecoration(
+                                border: InputBorder.none,
+                                hintText: "Clinic",
+                              suffixIcon: Icon(Icons.arrow_drop_down, color: Colors.white, size: 25,),
+                              hintStyle: TextStyle(
+                                color: Colors.white
+                              ),
+                            ),
+                            cursorColor: Colors.white,
+                            style: TextStyle(
+                              color: Colors.white
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: size.height * 0.02,),
+                      ListTile(
+                        leading: Image.asset("assets/images/doctor.png", width: 25, height: 25, color: Colors.white,),
+                        title: Container(
+                          decoration: BoxDecoration(
                             border: Border(
                                 bottom: BorderSide(color: Colors.black)
                             ),
 
-                        ),
-                        child: TextFormField(
-                          decoration: InputDecoration(
+                          ),
+                          child: TextFormField(
+                            decoration: InputDecoration(
                               border: InputBorder.none,
-                              hintText: "Purpose"
+                              hintText: "Doctor",
+                              suffixIcon: Icon(Icons.arrow_drop_down, color: Colors.white, size: 25,),
+                              hintStyle: TextStyle(
+                                  color: Colors.white
+                              ),
+                            ),
+                            cursorColor: Colors.white,
+                            style: TextStyle(
+                                color: Colors.white
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    SizedBox(height: size.height * 0.03,),
-                    ListTile(
-                      leading: Image.asset("assets/images/map_pin.png", width: 25, height: 25, color: Colors.white,),
-                      title: Container(
-                        decoration: BoxDecoration(
+                      SizedBox(height: size.height * 0.02,),
+                      ListTile(
+                        leading: Icon(Icons.location_city,size: 25,color: Colors.white,),
+                        title: Container(
+                          decoration: BoxDecoration(
                             border: Border(
                                 bottom: BorderSide(color: Colors.black)
                             ),
 
-                        ),
-                        child: TextFormField(
-                          decoration: InputDecoration(
+                          ),
+                          child: TextFormField(
+                            decoration: InputDecoration(
                               border: InputBorder.none,
-                              hintText: "Address"
+                              hintText: "Visit Type",
+                              suffixIcon: Icon(Icons.arrow_drop_down, color: Colors.white, size: 25,),
+                              hintStyle: TextStyle(
+                                  color: Colors.white
+                              ),
+                            ),
+                            cursorColor: Colors.white,
+                            style: TextStyle(
+                                color: Colors.white
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    SizedBox(height: size.height * 0.03,),
-                    ListTile(
-                      leading: Image.asset("assets/images/comments.png", width: 25, height: 25, color: Colors.white,),
-                      title: Container(
-                        decoration: BoxDecoration(
+                      SizedBox(height: size.height * 0.02,),
+                      ListTile(
+                        leading: Image.asset("assets/images/comments.png", width: 25, height: 25, color: Colors.white,),
+                        title: Container(
+                          decoration: BoxDecoration(
+                              border: Border(
+                                  bottom: BorderSide(color: Colors.black)
+                              ),
+
+                          ),
+                          child: TextFormField(
+                            maxLines: 3,
+                            decoration: InputDecoration(
+                                border: InputBorder.none,
+                                hintText: "Remarks",
+                              hintStyle: TextStyle(
+                                color: Colors.white
+                              )
+                            ),
+                            cursorColor: Colors.white,
+                            style: TextStyle(
+                              color: Colors.white
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: size.height * 0.02,),
+                      ListTile(
+                        leading: Icon(
+                          Icons.file_copy_rounded,
+                          color: Colors.white,
+                          size: 25,
+                        ),
+                        title: Container(
+                          decoration: BoxDecoration(
                             border: Border(
                                 bottom: BorderSide(color: Colors.black)
                             ),
 
-                        ),
-                        child: TextFormField(
-                          maxLines: 3,
-                          decoration: InputDecoration(
-                              border: InputBorder.none,
-                              hintText: "Notes"
+                          ),
+                          child: TextFormField(
+                            style: TextStyle(
+                              color: Colors.white
+                            ),
+                            decoration: InputDecoration(
+                                border: InputBorder.none,
+                                hintText: "Results",
+                              hintStyle: TextStyle(
+                                color: Colors.white
+                              ),
+                              suffixIcon: Icon(
+                                Icons.arrow_drop_down,
+                                color: Colors.white,
+                                size: 25,
+                              )
+                            ),
+                            cursorColor: Colors.white,
                           ),
                         ),
                       ),
-                    ),
-                    SizedBox(height: size.height * 0.03,),
-                    ElevatedButton(onPressed: (){}, child: Text("Save", style: GoogleFonts.openSans(
-                      color: Colors.white,
-                      fontSize: 25,
-                      fontWeight: FontWeight.w600
-                    ),), style: ElevatedButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15)
+                      SizedBox(height: size.height * 0.02,),
+                      ListTile(
+                        leading: Image.asset("assets/images/calendar.png", width: 25, height: 25, color: Colors.white,),
+                        title: Container(
+                          decoration: BoxDecoration(
+                            border: Border(
+                                bottom: BorderSide(color: Colors.black)
+                            ),
+
+                          ),
+                          child: TextFormField(
+                            style: TextStyle(color: Colors.white),
+                            cursorColor: Colors.white,
+                            decoration: InputDecoration(
+                                border: InputBorder.none,
+                                suffixIcon: InkWell(onTap: (){
+                                  showDatePicker(context: context, firstDate: DateTime.now(), lastDate: DateTime.now());
+                                }, child: Image.asset("assets/images/calendar.png", width: 25, height: 25,color: Colors.white,),),
+                                hintText: "Completion Date",
+                                hintStyle: TextStyle(color: Colors.white)
+
+                            ),
+                          ),
+                        ),
                       ),
-                      backgroundColor: BUTTONCOLOR
-                    ),)
-                  ],
+                      SizedBox(height: size.height * 0.02,),
+                      ElevatedButton(onPressed: (){}, child: Text("Submit", style: GoogleFonts.openSans(
+                        color: Colors.white,
+                        fontSize: 22,
+                        fontWeight: FontWeight.w600
+                      ),), style: ElevatedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15)
+                        ),
+                        backgroundColor: BUTTONCOLOR
+                      ),)
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
+
         ),
       );
     },

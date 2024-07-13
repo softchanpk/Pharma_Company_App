@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:sc_pharma_app/colors.dart';
 import 'package:sc_pharma_app/widgets/card.dart';
 import 'package:badges/badges.dart' as badge;
+import 'package:sc_pharma_app/widgets/navigation_drawer.dart';
 
 import '../widgets/colors.dart';
 
@@ -20,15 +21,6 @@ class _ExpenseRecorderState extends State<ExpenseRecorder> {
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: Colors.white,
-        leading: IconButton(
-          icon: Icon(Icons.menu,
-          color: BUTTONCOLOR,
-            size: 30,
-          ),
-          onPressed: (){
-
-          },
-        ),
         title: Text("Expense Recorder",
         style: GoogleFonts.openSans(
           color: BUTTONCOLOR,
@@ -36,7 +28,11 @@ class _ExpenseRecorderState extends State<ExpenseRecorder> {
           fontSize: 25
         ),
         ),
+          iconTheme: IconThemeData(
+              color: BUTTONCOLOR
+          ),
       ),
+      drawer: NavigationDrawerScreen(),
       body: Container(
         width: size.width,
         height: size.height,
@@ -88,7 +84,8 @@ class _ExpenseRecorderState extends State<ExpenseRecorder> {
               child: Text("x",
                 style: TextStyle(
                     fontSize: 25,
-                    fontWeight: FontWeight.w700
+                    fontWeight: FontWeight.w700,
+                    color: Colors.white
                 ),
               ),
             ),
@@ -184,9 +181,9 @@ class _ExpenseRecorderState extends State<ExpenseRecorder> {
                       ),
                     ),
                     SizedBox(height: size.height * 0.03,),
-                    ElevatedButton(onPressed: (){}, child: Text("Record", style: GoogleFonts.openSans(
+                    ElevatedButton(onPressed: (){}, child: Text("Submit", style: GoogleFonts.openSans(
                         color: Colors.white,
-                        fontSize: 25,
+                        fontSize: 22,
                         fontWeight: FontWeight.w600
                     ),), style: ElevatedButton.styleFrom(
                         shape: RoundedRectangleBorder(

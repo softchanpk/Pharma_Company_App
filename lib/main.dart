@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Pharma App',
 
-      home: VisitSchduele() );
+      home: SplashScreen() );
   }
 }
 

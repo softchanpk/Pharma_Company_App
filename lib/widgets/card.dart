@@ -12,27 +12,34 @@ class CustomCard extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
     return Container(
       width: size.width,
-      height: size.height * 0.25,
+      height: size.height * 0.21,
       decoration: BoxDecoration(
         color: bgColor is Color ? bgColor : null,
         borderRadius: BorderRadius.circular(15),
         gradient: bgColor is LinearGradient ? bgColor : null
       ),
-      child: Column(
-        children: _generateItems(),
+      child: Padding(
+        padding: const EdgeInsets.only(bottom: 5.0),
+        child: Column(
+
+          children: _generateItems(),
+        ),
       ),
     );
   }
   List<Widget> _generateItems(){
    return List.generate(images.length, (index){
       return Expanded(child: ListTile(
-        leading: images[index],
-        title: Text(fields[index],
-        style: GoogleFonts.openSans(
-          color: Colors.white
+          minVerticalPadding: 0,
+          leading: images[index],
+          title: Text(fields[index],
+          style: GoogleFonts.openSans(
+            color: Colors.white,
+            fontSize: 14
+          ),
+          ),
         ),
-        ),
-      ));
+      );
     });
   }
 }
