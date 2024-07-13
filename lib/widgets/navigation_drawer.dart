@@ -8,8 +8,8 @@ import 'package:sc_pharma_app/views/tag_location_screen.dart';
 import 'package:sc_pharma_app/views/visit_schduele.dart';
 
 class NavigationDrawerScreen extends StatelessWidget {
-  const NavigationDrawerScreen({Key? key}) : super(key: key);
 
+  NavigationDrawerScreen( {super.key});
   @override
   Widget build(BuildContext context) {
    Size size = MediaQuery.of(context).size;
@@ -19,7 +19,7 @@ class NavigationDrawerScreen extends StatelessWidget {
           children: [
 
             UserAccountsDrawerHeader(
-              accountName: Text('Hafiz Muhammad Yaseen',style: GoogleFonts.openSans(
+              accountName: Text("ASIF MUSTAFA",style: GoogleFonts.openSans(
                 textStyle: const TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.w700,
@@ -50,7 +50,7 @@ class NavigationDrawerScreen extends StatelessWidget {
             ),
             InkWell(
               onTap: (){
-                Navigator.pushReplacement(context, PageTransition(child: const TagLocationScreen(), type: PageTransitionType.rightToLeft));
+                Navigator.pushReplacement(context, PageTransition(child: TagLocationScreen(), type: PageTransitionType.rightToLeft));
               },
               child: ListTile(
                 leading: Image.asset('assets/images/taglocation.png',height: 25,color: const Color(0xff420331),),
@@ -109,7 +109,7 @@ class NavigationDrawerScreen extends StatelessWidget {
             ),
             InkWell(
               onTap: (){
-                Navigator.pushReplacement(context, PageTransition(child: const ReportsMenuScreen(), type: PageTransitionType.rightToLeft));
+                Navigator.pushReplacement(context, PageTransition(child: ReportsMenuScreen(), type: PageTransitionType.rightToLeft));
               },
               child: ListTile(
                 leading: Image.asset('assets/images/reportdrawer.png',height: 25,color: const Color(0xff420331),),

@@ -9,6 +9,7 @@ import '../widgets/colors.dart';
 
 class ExpenseRecorder extends StatefulWidget {
 
+  ExpenseRecorder( {super.key});
   @override
   State<ExpenseRecorder> createState() => _ExpenseRecorderState();
 }

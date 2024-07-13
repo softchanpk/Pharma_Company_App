@@ -9,6 +9,7 @@ import '../widgets/colors.dart';
 
 class VisitSchduele extends StatefulWidget {
 
+  VisitSchduele( {super.key});
   @override
   State<VisitSchduele> createState() => _VisitSchdueleState();
 }

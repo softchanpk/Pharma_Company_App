@@ -1,9 +1,12 @@
+import 'dart:convert';
+
 import'package:flutter/material.dart';
 import 'package:get/get.dart';
 import'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:sc_pharma_app/controller/login_controller.dart';
 import 'package:sc_pharma_app/views/tag_location_screen.dart';
+import 'package:http/http.dart' as http;
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -15,6 +18,9 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   LoginController controller = Get.put(LoginController());
+  bool _isLoading = false;
+  late String _email;
+  late String _password;
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -92,7 +98,18 @@ class _LoginState extends State<Login> {
         
                                         hintText: 'Email',
                                         hintStyle: TextStyle(fontSize: 14)
+
                                     ),
+                                      validator: (val){
+                                        if(_email.isEmpty){
+                                          return "Please provide valid username";
+                                        }
+                                        return null;
+                                      },
+                                      onSaved: (val) {
+                                        _email = val!;
+                                      }
+
                                   ),
                                 ),
                               ),
@@ -132,7 +149,15 @@ class _LoginState extends State<Login> {
                                         hintText: 'Password',
                                         hintStyle: const TextStyle(fontSize: 14)
                                     ),
-
+                                        validator: (val){
+                                          if(_password.isEmpty){
+                                            return "Please provide password";
+                                          }
+                                          return null;
+                                        },
+                                        onSaved: (val) {
+                                          _password = val!;
+                                        }
                                   );
                                   })
                                 ),
@@ -154,8 +179,8 @@ class _LoginState extends State<Login> {
                               SizedBox(height: size.height * 0.03,),
                               InkWell(
                                 onTap: (){
-                                  Navigator.push(context, PageTransition(child: const TagLocationScreen(), type: PageTransitionType.rightToLeft));
-                                },
+                                  login();
+                                  },
                                 child: Container(
                                   height: size.height * 0.06,
                                   width: size.width * 0.4,
@@ -164,7 +189,9 @@ class _LoginState extends State<Login> {
                                     color: const Color(0xff2d2f44),
                                   ),
                                   child: Center(
-                                    child: Text('LogIn',style: GoogleFonts.openSans(
+                                    child: _isLoading ? Center(child: CircularProgressIndicator(
+                                      color: Colors.white,
+                                    ),) : Text('LogIn',style: GoogleFonts.openSans(
                                       textStyle: const TextStyle(
                                         fontSize: 18,
                                         fontWeight: FontWeight.w700,
@@ -188,4 +215,57 @@ class _LoginState extends State<Login> {
 
     );
   }
+  Future<void> login() async{
+    var currentState = _formKey.currentState!;
+    currentState.save();
+    bool isValid = currentState.validate();
+    if(isValid){
+      _isLoading = true;
+      setState(() {
+
+      });
+    }
+    try{
+      Uri uri = Uri.http("sc9.indus-erp.com:1251", "/ords/indus6/log/login",
+          {"usrid": _email, "password": _password});
+      var response = await http.get(uri);
+      var res = jsonDecode(response.body);
+      print(response.statusCode);
+      print(res);
+      if(response.statusCode == 200){
+
+        Navigator.pushReplacement(context, PageTransition(child: TagLocationScreen(), type: PageTransitionType.rightToLeft));
+
+      }
+      else {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            backgroundColor: Color(0xff420331),
+            content: Text("Please enter correct credentials",style: TextStyle(
+                color: Colors.white
+            ),)));
+        setState(() {
+          _isLoading = false;
+        });
+      }
+
+    }
+        catch(e){
+        print(e.toString());
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(backgroundColor: Color(0xff420331),
+          content: Text("Login Failed",style: TextStyle(
+            color: Colors.white,
+          ),
+          ),
+        ),
+        );
+        setState(() {
+          _isLoading = false;
+        },
+        );
+
+    }
+
+  }
+
+
 }

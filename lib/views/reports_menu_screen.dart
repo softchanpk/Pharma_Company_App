@@ -4,8 +4,8 @@ import 'package:google_fonts/google_fonts.dart';
 import '../widgets/navigation_drawer.dart';
 
 class ReportsMenuScreen extends StatelessWidget {
-  const ReportsMenuScreen({Key? key}) : super(key: key);
 
+  ReportsMenuScreen( {super.key});
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -23,7 +23,7 @@ class ReportsMenuScreen extends StatelessWidget {
         ),
         iconTheme: const IconThemeData(color: Color(0xff2d2f44),),
       ),
-      drawer: const NavigationDrawerScreen(),
+      drawer: NavigationDrawerScreen(),
       body: SingleChildScrollView(
         child: Column(
           children: [

@@ -4,8 +4,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:sc_pharma_app/widgets/navigation_drawer.dart';
 
 class TagLocationScreen extends StatefulWidget {
-  const TagLocationScreen({Key? key}) : super(key: key);
 
+  TagLocationScreen({super.key});
   @override
   State<TagLocationScreen> createState() => _TagLocationScreenState();
 }
@@ -27,8 +27,8 @@ class _TagLocationScreenState extends State<TagLocationScreen> {
         ),
         iconTheme: const IconThemeData(color: Color(0xff2d2f44),),
       ),
-      drawer: const NavigationDrawerScreen(),
-      body: const Center(child: Text('Welcome'),),
+      drawer: NavigationDrawerScreen(),
+      body: Center(child: Text('Bilal'),),
     );
   }
 }
