@@ -4,8 +4,11 @@ import 'package:google_fonts/google_fonts.dart';
 import '../widgets/navigation_drawer.dart';
 
 class ReportsMenuScreen extends StatelessWidget {
-
-  ReportsMenuScreen( {super.key});
+  String? userId,userName;
+  ReportsMenuScreen(String userId,String userName){
+    this.userId = userId;
+    this.userName = userName;
+  }
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -23,7 +26,7 @@ class ReportsMenuScreen extends StatelessWidget {
         ),
         iconTheme: const IconThemeData(color: Color(0xff2d2f44),),
       ),
-      drawer: NavigationDrawerScreen(),
+      drawer: NavigationDrawerScreen(userId!,userName!),
       body: SingleChildScrollView(
         child: Column(
           children: [

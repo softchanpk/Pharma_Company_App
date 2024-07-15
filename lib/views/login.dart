@@ -6,7 +6,7 @@ import'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:sc_pharma_app/controller/login_controller.dart';
 import 'package:sc_pharma_app/views/tag_location_screen.dart';
-import 'package:http/http.dart' as http;
+
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -19,8 +19,8 @@ class _LoginState extends State<Login> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   LoginController controller = Get.put(LoginController());
   bool _isLoading = false;
-  late String _email;
-  late String _password;
+  String? _email;
+  String? _password;
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -80,10 +80,10 @@ class _LoginState extends State<Login> {
                               Padding(
                                 padding: const EdgeInsets.only(left: 12.0,right: 12.0),
                                 child: Container(
-                                  height: size.height * 0.07,
+                                  height: size.height * 0.09,
                                   child: TextFormField(
-
-                                    cursorColor: const Color(0xff2d2f44),
+                                    controller: controller.emailController.value,
+                                      cursorColor: const Color(0xff2d2f44),
                                     decoration: const InputDecoration(
                                         fillColor: Colors.white,
                                         filled: true,
@@ -101,7 +101,7 @@ class _LoginState extends State<Login> {
 
                                     ),
                                       validator: (val){
-                                        if(_email.isEmpty){
+                                        if(_email!.isEmpty){
                                           return "Please provide valid username";
                                         }
                                         return null;
@@ -117,10 +117,11 @@ class _LoginState extends State<Login> {
                               Padding(
                                 padding: const EdgeInsets.only(left: 12.0,right: 12.0),
                                 child: Container(
-                                  height: size.height * 0.07,
+                                  height: size.height * 0.09,
                                   child: Obx((){
                                     return TextFormField(
                                     obscureText: controller.isHidePassword.value,
+                                    controller: controller.passwordController.value,
                                     cursorColor: const Color(0xff2d2f44),
                                     decoration:  InputDecoration(
                                         fillColor: Colors.white,
@@ -150,7 +151,7 @@ class _LoginState extends State<Login> {
                                         hintStyle: const TextStyle(fontSize: 14)
                                     ),
                                         validator: (val){
-                                          if(_password.isEmpty){
+                                          if(_password!.isEmpty){
                                             return "Please provide password";
                                           }
                                           return null;
@@ -177,30 +178,52 @@ class _LoginState extends State<Login> {
                                 )
                               ),
                               SizedBox(height: size.height * 0.03,),
-                              InkWell(
-                                onTap: (){
-                                  login();
+                              GetBuilder<LoginController>(init: controller,
+                              builder: (logincontroller){
+
+                                return InkWell(
+                                  onTap: () async{
+                                    var currentState = _formKey.currentState!;
+                                    currentState.save();
+                                    bool isValid = currentState.validate();
+                                    if(isValid){
+                                      controller.isLoading = true;
+                                    }
+                                   bool response = await controller.loginApiController();
+                                    if(response){
+                                      Navigator.pushReplacement(context, PageTransition(
+                                          child: TagLocationScreen(logincontroller.userId,logincontroller.userName), type: PageTransitionType.rightToLeft));
+                                    }
+                                    else{
+                                      Get.snackbar('Login Failed','',
+                                        snackPosition: SnackPosition.BOTTOM,
+                                        colorText: Colors.white,
+                                        backgroundColor: Color(0xff420331),);
+                                    }
+
+
                                   },
-                                child: Container(
-                                  height: size.height * 0.06,
-                                  width: size.width * 0.4,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(15),
-                                    color: const Color(0xff2d2f44),
+                                  child: Container(
+                                    height: size.height * 0.06,
+                                    width: size.width * 0.4,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(15),
+                                      color: const Color(0xff2d2f44),
+                                    ),
+                                    child: Center(
+                                      child: controller.isLoading ? Center(child: CircularProgressIndicator(
+                                        color: Colors.white,
+                                      ),) : Text('LogIn',style: GoogleFonts.openSans(
+                                          textStyle: const TextStyle(
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.w700,
+                                              color: Colors.white
+                                          )
+                                      ),),
+                                    ),
                                   ),
-                                  child: Center(
-                                    child: _isLoading ? Center(child: CircularProgressIndicator(
-                                      color: Colors.white,
-                                    ),) : Text('LogIn',style: GoogleFonts.openSans(
-                                      textStyle: const TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.w700,
-                                        color: Colors.white
-                                      )
-                                    ),),
-                                  ),
-                                ),
-                              ),
+                                );
+                              }),
                             ],
                           ),
                         ),
@@ -215,57 +238,7 @@ class _LoginState extends State<Login> {
 
     );
   }
-  Future<void> login() async{
-    var currentState = _formKey.currentState!;
-    currentState.save();
-    bool isValid = currentState.validate();
-    if(isValid){
-      _isLoading = true;
-      setState(() {
 
-      });
-    }
-    try{
-      Uri uri = Uri.http("sc9.indus-erp.com:1251", "/ords/indus6/log/login",
-          {"usrid": _email, "password": _password});
-      var response = await http.get(uri);
-      var res = jsonDecode(response.body);
-      print(response.statusCode);
-      print(res);
-      if(response.statusCode == 200){
-
-        Navigator.pushReplacement(context, PageTransition(child: TagLocationScreen(), type: PageTransitionType.rightToLeft));
-
-      }
-      else {
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-            backgroundColor: Color(0xff420331),
-            content: Text("Please enter correct credentials",style: TextStyle(
-                color: Colors.white
-            ),)));
-        setState(() {
-          _isLoading = false;
-        });
-      }
-
-    }
-        catch(e){
-        print(e.toString());
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(backgroundColor: Color(0xff420331),
-          content: Text("Login Failed",style: TextStyle(
-            color: Colors.white,
-          ),
-          ),
-        ),
-        );
-        setState(() {
-          _isLoading = false;
-        },
-        );
-
-    }
-
-  }
 
 
 }

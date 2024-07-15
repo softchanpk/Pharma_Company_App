@@ -8,8 +8,11 @@ import 'package:sc_pharma_app/widgets/navigation_drawer.dart';
 import '../widgets/colors.dart';
 
 class ExpenseRecorder extends StatefulWidget {
-
-  ExpenseRecorder( {super.key});
+  String? userId,userName;
+  ExpenseRecorder(String userId,String userName){
+    this.userId = userId;
+    this.userName = userName;
+  }
   @override
   State<ExpenseRecorder> createState() => _ExpenseRecorderState();
 }
@@ -33,7 +36,7 @@ class _ExpenseRecorderState extends State<ExpenseRecorder> {
               color: BUTTONCOLOR
           ),
       ),
-      drawer: NavigationDrawerScreen(),
+      drawer: NavigationDrawerScreen(widget.userId!,widget.userName!),
       body: Container(
         width: size.width,
         height: size.height,

@@ -1,20 +1,54 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:sc_pharma_app/colors.dart';
+import 'package:sc_pharma_app/controller/visit_schueduele_controller.dart';
 import 'package:sc_pharma_app/widgets/card.dart';
 import 'package:badges/badges.dart' as badge;
 import 'package:sc_pharma_app/widgets/navigation_drawer.dart';
+
+import 'package:sc_pharma_app/models/visit_model.dart';
+
+import 'package:sc_pharma_app/colors.dart';
 
 import '../widgets/colors.dart';
 
 class VisitSchduele extends StatefulWidget {
 
-  VisitSchduele( {super.key});
+  String? userId, userName;
+  VisitSchduele(String userId,String userName){
+    this.userId = userId;
+    this.userName = userName;
+  }
   @override
   State<VisitSchduele> createState() => _VisitSchdueleState();
 }
 
 class _VisitSchdueleState extends State<VisitSchduele> {
+  VisitController _visitController = VisitController();
+  String _transactionNo = "";
+  String _schuedueleDate = "";
+
+  String? clinic;
+
+  String? doctor;
+
+  String? visittype;
+
+  String? comment;
+
+  String? result;
+
+  String? completiondate;
+  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  VisitModel? data;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    Future.delayed(Duration.zero,(){
+      _visitController.getVisitData();
+    });
+  }
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -23,50 +57,57 @@ class _VisitSchdueleState extends State<VisitSchduele> {
         centerTitle: true,
         backgroundColor: Colors.white,
         title: Text("Visit Scheduele",
-        style: GoogleFonts.openSans(
-          color: BUTTONCOLOR,
-          fontWeight: FontWeight.w600,
-          fontSize: 25
-        ),
+          style: GoogleFonts.openSans(
+              color: BUTTONCOLOR,
+              fontWeight: FontWeight.w600,
+              fontSize: 25
+          ),
         ),
         iconTheme: IconThemeData(
             color: BUTTONCOLOR
         ),
       ),
-      drawer: NavigationDrawerScreen(),
+      drawer: NavigationDrawerScreen(widget.userId!,widget.userName!),
       body: Container(
         width: size.width,
         height: size.height,
-        child: ListView.builder(itemBuilder: (ctx, index){
-          var cardBgColor = index % 2 == 0 ? CARDGRADIENT : BUTTONCOLOR;
-          return InkWell(
-            onTap: (){
-              showModal();
-            },
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 15),
-              child: CustomCard(bgColor: cardBgColor, images: [
-                Image.asset("assets/images/calendar.png", width: 25, height: 25, color: Colors.white,),
-                Image.asset("assets/images/transaction.png", width: 25, height: 25, color: Colors.white,),
-                Image.asset("assets/images/clinic.png", width: 25, height: 25, color: Colors.white,),
-                Image.asset("assets/images/doctor.png", width: 25, height: 25, color: Colors.white,),
-              ], fields: [
-                "Fri 28-06-2024",
-                "Trans.No",
-                "Noor Clinic, Malir",
-                "Dr. Atif",
-              ],),
-            ),
-          );
-        },
-        itemCount: 7,
+        child: GetBuilder<VisitController>(
+            init: _visitController,
+            builder: (context) {
+              return _visitController.getIsDataFetched ? ListView.builder(itemBuilder: (ctx, index){
+                var cardBgColor = index % 2 == 0 ? CARDGRADIENT : BUTTONCOLOR;
+                data = _visitController.getModel;
+                return InkWell(
+                  onTap: (){
+                    showModal(index);
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 15),
+                    child: CustomCard(bgColor: cardBgColor, images: [
+                      Image.asset("assets/images/calendar.png", width: 25, height: 25, color: Colors.white,),
+                      Image.asset("assets/images/transaction.png", width: 25, height: 25, color: Colors.white,),
+                      Image.asset("assets/images/clinic.png", width: 25, height: 25, color: Colors.white,),
+                      Image.asset("assets/images/doctor.png", width: 25, height: 25, color: Colors.white,),
+                    ], fields: [
+                      data!.items![index].vstschdt!,
+                      data!.items![index].vstno!.toString(),
+                      data!.items![index].vsttypdsc!,
+                      data!.items![index].sprname!,
+                    ],),
+                  ),
+                );
+              },
+                itemCount: 2,
+              ) : Center(
+                child: Text("Loading"),
+              );
+            }
         ),
       ),
     );
   }
-  showModal(){
+  showModal(int index){
     Size size = MediaQuery.of(context).size;
-    GlobalKey<FormState> formKey = GlobalKey<FormState>();
     showDialog(context: context, builder: (ctx){
       return AlertDialog(
         contentPadding: EdgeInsets.zero,
@@ -74,7 +115,7 @@ class _VisitSchdueleState extends State<VisitSchduele> {
         content: badge.Badge(
           position: badge.BadgePosition.topEnd(top: -15),
           badgeStyle: badge.BadgeStyle(
-            badgeColor: Colors.transparent
+              badgeColor: Colors.transparent
           ),
           //showBadge: false,
           badgeContent: InkWell(
@@ -94,215 +135,302 @@ class _VisitSchdueleState extends State<VisitSchduele> {
             },
           ),
 
-            child: Container(
-              width: size.width,
-              height: size.height * 0.85,
-              decoration: BoxDecoration(
+          child: Container(
+            width: size.width,
+            height: size.height * 0.85,
+            decoration: BoxDecoration(
                 gradient: CARDGRADIENT,
                 borderRadius: BorderRadius.circular(20)
-              ),
-              child: SingleChildScrollView(
-                child: Form(
-                  key: formKey,
-                  child: Column(
-                    children: [
-                      SizedBox(height: size.height * 0.03,),
-                      ListTile(
-                        leading: Icon(Icons.transform_outlined,size: 25,color: Colors.white,),
-                        title: Container(
-                          decoration: BoxDecoration(
-                            border: Border(
-                                bottom: BorderSide(color: Colors.black)
-                            ),
+            ),
+            child: SingleChildScrollView(
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  children: [
+                    SizedBox(height: size.height * 0.03,),
+                    ListTile(
+                      leading: Icon(Icons.transform_outlined,size: 25,color: Colors.white,),
+                      title: Container(
+                        decoration: BoxDecoration(
+                          border: Border(
+                              bottom: BorderSide(color: Colors.black)
+                          ),
 
-                          ),
-                          child: TextFormField(
-                            style: TextStyle(
+                        ),
+                        child: TextFormField(
+                          style: TextStyle(
                               color: Colors.white
-                            ),
-                            cursorColor: Colors.white,
-                            decoration: InputDecoration(
-                                border: InputBorder.none,
-                                hintStyle: TextStyle(color: Colors.white),
-                                hintText: "Trans No:"
-                            ),
                           ),
+                          cursorColor: Colors.white,
+                          decoration: InputDecoration(
+                              border: InputBorder.none,
+                              hintStyle: TextStyle(color: Colors.white),
+                              hintText: data!.items![index].vstno!.toString()
+                          ),
+                          onSaved: (trans){
+                            _transactionNo = trans!;
+                          },
+                          validator: (trans){
+                            if(trans == ""){
+                              return "Please enter valid transaction no";
+                            }
+                            return null;
+                          },
                         ),
                       ),
-                      SizedBox(height: size.height * 0.02,),
-                      ListTile(
-                        leading: Image.asset("assets/images/calendar.png", width: 25, height: 25, color: Colors.white,),
-                        title: Container(
-                          decoration: BoxDecoration(
-                            border: Border(
+                    ),
+                    SizedBox(height: size.height * 0.02,),
+                    ListTile(
+                      leading: Image.asset("assets/images/calendar.png", width: 25, height: 25, color: Colors.white,),
+                      title: Container(
+                        decoration: BoxDecoration(
+                          border: Border(
                               bottom: BorderSide(color: Colors.black)
-                            ),
-
                           ),
-                          child: TextFormField(
-                            cursorColor: Colors.white,
-                            style: TextStyle(color: Colors.white),
-                            decoration: InputDecoration(
+
+                        ),
+                        child: TextFormField(
+                          cursorColor: Colors.white,
+                          style: TextStyle(color: Colors.white),
+                          decoration: InputDecoration(
                               border: InputBorder.none,
                               suffixIcon: InkWell(onTap: (){
                                 showDatePicker(context: context, firstDate: DateTime.now(), lastDate: DateTime.now());
                               }, child: Image.asset("assets/images/calendar.png", width: 25, height: 25,color: Colors.white,),),
-                              hintText: "Schedule Date",
+                              hintText: data!.items![index].vstschdt,
                               hintStyle: TextStyle(color: Colors.white)
 
-                            ),
                           ),
+                          onSaved: (date){
+                            _schuedueleDate = date!;
+                          },
+                          validator: (date){
+                            if(date == ""){
+                              return "Please enter correct date";
+                            }
+                            return null;
+                          },
                         ),
                       ),
-                      SizedBox(height: size.height * 0.02,),
-                      ListTile(
-                        leading: Image.asset("assets/images/clinic.png", width: 25, height: 25, color: Colors.white,),
-                        title: Container(
-                          decoration: BoxDecoration(
-                              border: Border(
-                                  bottom: BorderSide(color: Colors.black)
-                              ),
-
+                    ),
+                    SizedBox(height: size.height * 0.02,),
+                    ListTile(
+                      leading: Image.asset("assets/images/clinic.png", width: 25, height: 25, color: Colors.white,),
+                      title: Container(
+                        decoration: BoxDecoration(
+                          border: Border(
+                              bottom: BorderSide(color: Colors.black)
                           ),
-                          child: TextFormField(
-                            decoration: InputDecoration(
-                                border: InputBorder.none,
-                                hintText: "Clinic",
-                              suffixIcon: Icon(Icons.arrow_drop_down, color: Colors.white, size: 25,),
-                              hintStyle: TextStyle(
+
+                        ),
+                        child: DropdownButtonFormField(
+                          dropdownColor: BUTTONCOLOR,
+                          icon: Padding(child: Icon(Icons.arrow_drop_down, color: Colors.white, size: 25,),
+                            padding: EdgeInsets.only(right: 14),
+                          ),
+                          items: _visitController.getClinicLov(),
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            hintText: "Clinics",
+                            //suffixIcon: Icon(Icons.arrow_drop_down, color: Colors.white, size: 25,),
+                            hintStyle: TextStyle(
                                 color: Colors.white
-                              ),
                             ),
-                            cursorColor: Colors.white,
-                            style: TextStyle(
+                          ),
+                          //cursorColor: Colors.white,
+                          style: TextStyle(
                               color: Colors.white
-                            ),
                           ),
+                          onSaved: (data){
+                            clinic = data;
+                          },
+                          onChanged: (data){
+                            clinic = data;
+                          },
+                          validator: (data){
+                            if(data == ""){
+                              return "Please enter valid correct clinic name";
+                            }
+                            return null;
+                          },
                         ),
                       ),
-                      SizedBox(height: size.height * 0.02,),
-                      ListTile(
-                        leading: Image.asset("assets/images/doctor.png", width: 25, height: 25, color: Colors.white,),
-                        title: Container(
-                          decoration: BoxDecoration(
-                            border: Border(
-                                bottom: BorderSide(color: Colors.black)
-                            ),
-
+                    ),
+                    SizedBox(height: size.height * 0.02,),
+                    ListTile(
+                      leading: Image.asset("assets/images/doctor.png", width: 25, height: 25, color: Colors.white,),
+                      title: Container(
+                        decoration: BoxDecoration(
+                          border: Border(
+                              bottom: BorderSide(color: Colors.black)
                           ),
-                          child: TextFormField(
+
+                        ),
+                        child: DropdownButtonFormField(
+                            dropdownColor: BUTTONCOLOR,
+                            icon: Padding(child: Icon(Icons.arrow_drop_down, color: Colors.white, size: 25,),
+                              padding: EdgeInsets.only(right: 14),
+                            ),
+                            items: _visitController.getDoctorLov(),
                             decoration: InputDecoration(
                               border: InputBorder.none,
-                              hintText: "Doctor",
-                              suffixIcon: Icon(Icons.arrow_drop_down, color: Colors.white, size: 25,),
+                              hintText: "Doctors",
+                              //suffixIcon: Icon(Icons.arrow_drop_down, color: Colors.white, size: 25,),
                               hintStyle: TextStyle(
                                   color: Colors.white
                               ),
                             ),
-                            cursorColor: Colors.white,
                             style: TextStyle(
                                 color: Colors.white
                             ),
-                          ),
+                            onSaved: (data){
+                              doctor = data!;
+                            },
+                            onChanged: (data){
+                              doctor = data;
+                            },
+                            validator: (data){
+                              if(data == ""){
+                                return "Please enter valid correct doctor name";
+                              }
+                              return null;
+                            }
                         ),
                       ),
-                      SizedBox(height: size.height * 0.02,),
-                      ListTile(
-                        leading: Icon(Icons.location_city,size: 25,color: Colors.white,),
-                        title: Container(
-                          decoration: BoxDecoration(
-                            border: Border(
-                                bottom: BorderSide(color: Colors.black)
-                            ),
-
+                    ),
+                    SizedBox(height: size.height * 0.02,),
+                    ListTile(
+                      leading: Icon(Icons.location_city,size: 25,color: Colors.white,),
+                      title: Container(
+                        decoration: BoxDecoration(
+                          border: Border(
+                              bottom: BorderSide(color: Colors.black)
                           ),
-                          child: TextFormField(
-                            decoration: InputDecoration(
-                              border: InputBorder.none,
-                              hintText: "Visit Type",
-                              suffixIcon: Icon(Icons.arrow_drop_down, color: Colors.white, size: 25,),
-                              hintStyle: TextStyle(
-                                  color: Colors.white
-                              ),
-                            ),
-                            cursorColor: Colors.white,
-                            style: TextStyle(
+
+                        ),
+                        child: DropdownButtonFormField(
+                          dropdownColor: BUTTONCOLOR,
+                          icon: Padding(child: Icon(Icons.arrow_drop_down, color: Colors.white, size: 25,),
+                            padding: EdgeInsets.only(right: 14),
+                          ),
+                          items: _visitController.getVisitTypeLov(),
+
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            hintText: "Visit Type",
+                            hintStyle: TextStyle(
                                 color: Colors.white
                             ),
                           ),
+                          style: TextStyle(
+                              color: Colors.white
+                          ),
+                          onSaved: (data){
+                            visittype = data;
+                          },
+                          validator: (data){
+                            if(data == ""){
+                              return "Please enter valid correct visit type";
+                            }
+                            return null;
+                          },
+                          onChanged: (data){
+                            visittype = data;
+                          },
                         ),
                       ),
-                      SizedBox(height: size.height * 0.02,),
-                      ListTile(
-                        leading: Image.asset("assets/images/comments.png", width: 25, height: 25, color: Colors.white,),
-                        title: Container(
-                          decoration: BoxDecoration(
-                              border: Border(
-                                  bottom: BorderSide(color: Colors.black)
-                              ),
-
+                    ),
+                    SizedBox(height: size.height * 0.02,),
+                    ListTile(
+                      leading: Image.asset("assets/images/comments.png", width: 25, height: 25, color: Colors.white,),
+                      title: Container(
+                        decoration: BoxDecoration(
+                          border: Border(
+                              bottom: BorderSide(color: Colors.black)
                           ),
-                          child: TextFormField(
+
+                        ),
+                        child: TextFormField(
                             maxLines: 3,
                             decoration: InputDecoration(
                                 border: InputBorder.none,
-                                hintText: "Remarks",
-                              hintStyle: TextStyle(
-                                color: Colors.white
-                              )
+                                hintText: data!.items![index].schremarks,
+                                hintStyle: TextStyle(
+                                    color: Colors.white
+                                )
                             ),
                             cursorColor: Colors.white,
                             style: TextStyle(
-                              color: Colors.white
-                            ),
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: size.height * 0.02,),
-                      ListTile(
-                        leading: Icon(
-                          Icons.file_copy_rounded,
-                          color: Colors.white,
-                          size: 25,
-                        ),
-                        title: Container(
-                          decoration: BoxDecoration(
-                            border: Border(
-                                bottom: BorderSide(color: Colors.black)
-                            ),
-
-                          ),
-                          child: TextFormField(
-                            style: TextStyle(
-                              color: Colors.white
-                            ),
-                            decoration: InputDecoration(
-                                border: InputBorder.none,
-                                hintText: "Results",
-                              hintStyle: TextStyle(
                                 color: Colors.white
-                              ),
-                              suffixIcon: Icon(
-                                Icons.arrow_drop_down,
-                                color: Colors.white,
-                                size: 25,
-                              )
                             ),
-                            cursorColor: Colors.white,
-                          ),
+                            onSaved: (data){
+                              comment = data;
+                            },
+                            validator: (data){
+                              if(data == ""){
+                                return "Please enter valid comments";
+                              }
+                              return null;
+                            }
                         ),
                       ),
-                      SizedBox(height: size.height * 0.02,),
-                      ListTile(
-                        leading: Image.asset("assets/images/calendar.png", width: 25, height: 25, color: Colors.white,),
-                        title: Container(
-                          decoration: BoxDecoration(
-                            border: Border(
-                                bottom: BorderSide(color: Colors.black)
-                            ),
-
+                    ),
+                    SizedBox(height: size.height * 0.02,),
+                    ListTile(
+                      leading: Icon(
+                        Icons.file_copy_rounded,
+                        color: Colors.white,
+                        size: 25,
+                      ),
+                      title: Container(
+                        decoration: BoxDecoration(
+                          border: Border(
+                              bottom: BorderSide(color: Colors.black)
                           ),
-                          child: TextFormField(
+
+                        ),
+                        child: DropdownButtonFormField(
+                          dropdownColor: BUTTONCOLOR,
+                          icon: Padding(child: Icon(Icons.arrow_drop_down, color: Colors.white, size: 25,),
+                            padding: EdgeInsets.only(right: 14),
+                          ),
+                          items: _visitController.getVisitResultLov(),
+                          style: TextStyle(
+                              color: Colors.white
+                          ),
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            hintText: "Visit Results",
+                            hintStyle: TextStyle(
+                                color: Colors.white
+                            ),
+                          ),
+                          onSaved: (data){
+                            result = data;
+                          },
+                          validator: (data){
+                            if(data == ""){
+                              return "Please enter valid result";
+                            }
+                            return null;
+                          },
+                          onChanged: (data){
+                            result = data;
+                          },
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: size.height * 0.02,),
+                    ListTile(
+                      leading: Image.asset("assets/images/calendar.png", width: 25, height: 25, color: Colors.white,),
+                      title: Container(
+                        decoration: BoxDecoration(
+                          border: Border(
+                              bottom: BorderSide(color: Colors.black)
+                          ),
+
+                        ),
+                        child: TextFormField(
                             style: TextStyle(color: Colors.white),
                             cursorColor: Colors.white,
                             decoration: InputDecoration(
@@ -314,30 +442,47 @@ class _VisitSchdueleState extends State<VisitSchduele> {
                                 hintStyle: TextStyle(color: Colors.white)
 
                             ),
-                          ),
+                            onSaved: (data){
+                              completiondate = data;
+                            },
+                            validator: (data){
+                              if(data == ""){
+                                return "Please enter valid correct completion date";
+                              }
+                              return null;
+                            }
                         ),
                       ),
-                      SizedBox(height: size.height * 0.02,),
-                      ElevatedButton(onPressed: (){}, child: Text("Submit", style: GoogleFonts.openSans(
+                    ),
+                    SizedBox(height: size.height * 0.02,),
+                    ElevatedButton(onPressed: (){}, child: Text("Submit", style: GoogleFonts.openSans(
                         color: Colors.white,
                         fontSize: 22,
                         fontWeight: FontWeight.w600
-                      ),), style: ElevatedButton.styleFrom(
+                    ),), style: ElevatedButton.styleFrom(
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15)
+                            borderRadius: BorderRadius.circular(15)
                         ),
                         backgroundColor: BUTTONCOLOR
-                      ),)
-                    ],
-                  ),
+                    ),
+                    )
+                  ],
                 ),
               ),
             ),
+          ),
 
         ),
       );
     },
-      barrierDismissible: false
+        barrierDismissible: false
     );
+  }
+  void _validateForm(){
+    var state = _formKey.currentState;
+    if(state!.validate()){
+      state.save();
+      //_visitController
+    }
   }
 }

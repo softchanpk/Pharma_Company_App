@@ -7,8 +7,11 @@ import 'package:sc_pharma_app/widgets/navigation_drawer.dart';
 import '../widgets/colors.dart';
 
 class Visit extends StatefulWidget {
-
-  Visit( {super.key});
+  String? userId, userName;
+  Visit(String userId, String userName){
+    this.userId = userId;
+    this.userName = userName;
+  }
   @override
   State<Visit> createState() => _VisitState();
 }
@@ -34,7 +37,7 @@ class _VisitState extends State<Visit> {
           color: BUTTONCOLOR
         ),
       ),
-      drawer: NavigationDrawerScreen(),
+      drawer: NavigationDrawerScreen(widget.userId!,widget.userName!),
       body: Container(
         width: size.width,
         height: size.height,
