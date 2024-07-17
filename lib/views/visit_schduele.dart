@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:sc_pharma_app/controller/visit_editing_controller.dart';
 import 'package:sc_pharma_app/controller/visit_schueduele_controller.dart';
 import 'package:sc_pharma_app/widgets/card.dart';
 import 'package:badges/badges.dart' as badge;
@@ -24,7 +25,7 @@ class VisitSchduele extends StatefulWidget {
 }
 
 class _VisitSchdueleState extends State<VisitSchduele> {
-  VisitController _visitController = VisitController();
+  VisitEditingController _visitEditingController = VisitEditingController();
   String _transactionNo = "";
   String _schuedueleDate = "";
 
@@ -46,7 +47,7 @@ class _VisitSchdueleState extends State<VisitSchduele> {
     // TODO: implement initState
     super.initState();
     Future.delayed(Duration.zero,(){
-      _visitController.getVisitData();
+      _visitEditingController.getVisitData(widget.userId!);
     });
   }
   @override
@@ -71,12 +72,12 @@ class _VisitSchdueleState extends State<VisitSchduele> {
       body: Container(
         width: size.width,
         height: size.height,
-        child: GetBuilder<VisitController>(
-            init: _visitController,
+        child: GetBuilder<VisitEditingController>(
+            init: _visitEditingController,
             builder: (context) {
-              return _visitController.getIsDataFetched ? ListView.builder(itemBuilder: (ctx, index){
+              return _visitEditingController.getIsDataFetched ? ListView.builder(itemBuilder: (ctx, index){
                 var cardBgColor = index % 2 == 0 ? CARDGRADIENT : BUTTONCOLOR;
-                data = _visitController.getModel;
+                data = _visitEditingController.getModel;
                 return InkWell(
                   onTap: (){
                     showModal(index);
@@ -165,8 +166,9 @@ class _VisitSchdueleState extends State<VisitSchduele> {
                           decoration: InputDecoration(
                               border: InputBorder.none,
                               hintStyle: TextStyle(color: Colors.white),
-                              hintText: data!.items![index].vstno!.toString()
+                            labelText: "Visit no",
                           ),
+                          initialValue: data!.items![index].vstno!.toString(),
                           onSaved: (trans){
                             _transactionNo = trans!;
                           },
@@ -197,10 +199,11 @@ class _VisitSchdueleState extends State<VisitSchduele> {
                               suffixIcon: InkWell(onTap: (){
                                 showDatePicker(context: context, firstDate: DateTime.now(), lastDate: DateTime.now());
                               }, child: Image.asset("assets/images/calendar.png", width: 25, height: 25,color: Colors.white,),),
-                              hintText: data!.items![index].vstschdt,
-                              hintStyle: TextStyle(color: Colors.white)
+                              labelText: "Visit Date",
+                              labelStyle: TextStyle(color: Colors.white)
 
                           ),
+                          initialValue: data!.items![index].vstschdt,
                           onSaved: (date){
                             _schuedueleDate = date!;
                           },
@@ -228,12 +231,13 @@ class _VisitSchdueleState extends State<VisitSchduele> {
                           icon: Padding(child: Icon(Icons.arrow_drop_down, color: Colors.white, size: 25,),
                             padding: EdgeInsets.only(right: 14),
                           ),
-                          items: _visitController.getClinicLov(),
+                          items: [],
                           decoration: InputDecoration(
+                            enabled: false,
                             border: InputBorder.none,
-                            hintText: "Clinics",
+                            labelText: "Clinics",
                             //suffixIcon: Icon(Icons.arrow_drop_down, color: Colors.white, size: 25,),
-                            hintStyle: TextStyle(
+                            labelStyle: TextStyle(
                                 color: Colors.white
                             ),
                           ),
@@ -242,10 +246,10 @@ class _VisitSchdueleState extends State<VisitSchduele> {
                               color: Colors.white
                           ),
                           onSaved: (data){
-                            clinic = data;
+                            //clinic = data;
                           },
                           onChanged: (data){
-                            clinic = data;
+                            //clinic = data;
                           },
                           validator: (data){
                             if(data == ""){
@@ -271,12 +275,13 @@ class _VisitSchdueleState extends State<VisitSchduele> {
                             icon: Padding(child: Icon(Icons.arrow_drop_down, color: Colors.white, size: 25,),
                               padding: EdgeInsets.only(right: 14),
                             ),
-                            items: _visitController.getDoctorLov(),
+                            items: [],
                             decoration: InputDecoration(
+                              enabled: false,
                               border: InputBorder.none,
-                              hintText: "Doctors",
+                              labelText: "Doctors",
                               //suffixIcon: Icon(Icons.arrow_drop_down, color: Colors.white, size: 25,),
-                              hintStyle: TextStyle(
+                              labelStyle: TextStyle(
                                   color: Colors.white
                               ),
                             ),
@@ -284,10 +289,10 @@ class _VisitSchdueleState extends State<VisitSchduele> {
                                 color: Colors.white
                             ),
                             onSaved: (data){
-                              doctor = data!;
+                              //doctor = data!;
                             },
                             onChanged: (data){
-                              doctor = data;
+                             // doctor = data;
                             },
                             validator: (data){
                               if(data == ""){
@@ -313,12 +318,13 @@ class _VisitSchdueleState extends State<VisitSchduele> {
                           icon: Padding(child: Icon(Icons.arrow_drop_down, color: Colors.white, size: 25,),
                             padding: EdgeInsets.only(right: 14),
                           ),
-                          items: _visitController.getVisitTypeLov(),
+                          items: [],
 
                           decoration: InputDecoration(
+                            enabled: false,
                             border: InputBorder.none,
-                            hintText: "Visit Type",
-                            hintStyle: TextStyle(
+                            labelText: "Visit Type",
+                            labelStyle: TextStyle(
                                 color: Colors.white
                             ),
                           ),
@@ -326,7 +332,7 @@ class _VisitSchdueleState extends State<VisitSchduele> {
                               color: Colors.white
                           ),
                           onSaved: (data){
-                            visittype = data;
+                            //visittype = data;
                           },
                           validator: (data){
                             if(data == ""){
@@ -335,7 +341,7 @@ class _VisitSchdueleState extends State<VisitSchduele> {
                             return null;
                           },
                           onChanged: (data){
-                            visittype = data;
+                           // visittype = data;
                           },
                         ),
                       ),
@@ -354,8 +360,8 @@ class _VisitSchdueleState extends State<VisitSchduele> {
                             maxLines: 3,
                             decoration: InputDecoration(
                                 border: InputBorder.none,
-                                hintText: data!.items![index].schremarks,
-                                hintStyle: TextStyle(
+                                labelText: "Remarks",
+                                labelStyle: TextStyle(
                                     color: Colors.white
                                 )
                             ),
@@ -371,7 +377,8 @@ class _VisitSchdueleState extends State<VisitSchduele> {
                                 return "Please enter valid comments";
                               }
                               return null;
-                            }
+                            },
+                          initialValue: data!.items![index].schremarks,
                         ),
                       ),
                     ),
@@ -394,19 +401,20 @@ class _VisitSchdueleState extends State<VisitSchduele> {
                           icon: Padding(child: Icon(Icons.arrow_drop_down, color: Colors.white, size: 25,),
                             padding: EdgeInsets.only(right: 14),
                           ),
-                          items: _visitController.getVisitResultLov(),
+                          items: [],
                           style: TextStyle(
                               color: Colors.white
                           ),
                           decoration: InputDecoration(
+                            enabled: false,
                             border: InputBorder.none,
-                            hintText: "Visit Results",
-                            hintStyle: TextStyle(
+                            labelText: "Visit Results",
+                            labelStyle: TextStyle(
                                 color: Colors.white
                             ),
                           ),
                           onSaved: (data){
-                            result = data;
+                            //result = data;
                           },
                           validator: (data){
                             if(data == ""){
@@ -415,7 +423,7 @@ class _VisitSchdueleState extends State<VisitSchduele> {
                             return null;
                           },
                           onChanged: (data){
-                            result = data;
+                            //result = data;
                           },
                         ),
                       ),
@@ -438,10 +446,11 @@ class _VisitSchdueleState extends State<VisitSchduele> {
                                 suffixIcon: InkWell(onTap: (){
                                   showDatePicker(context: context, firstDate: DateTime.now(), lastDate: DateTime.now());
                                 }, child: Image.asset("assets/images/calendar.png", width: 25, height: 25,color: Colors.white,),),
-                                hintText: "Completion Date",
-                                hintStyle: TextStyle(color: Colors.white)
+                                labelText: "Completion Date",
+                                labelStyle: TextStyle(color: Colors.white)
 
                             ),
+                            initialValue: data!.items![index].vsttrndt,
                             onSaved: (data){
                               completiondate = data;
                             },
@@ -484,5 +493,11 @@ class _VisitSchdueleState extends State<VisitSchduele> {
       state.save();
       //_visitController
     }
+  }
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _visitEditingController.dispose();
   }
 }

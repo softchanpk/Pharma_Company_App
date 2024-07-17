@@ -27,9 +27,6 @@ class TagLocationScreen extends StatefulWidget {
 class _TagLocationScreenState extends State<TagLocationScreen> {
   final Completer<GoogleMapController> _completer = Completer();
   GetLocationController getLocationController = Get.put(GetLocationController());
-  CameraPosition _kGooglePlex = CameraPosition(target: LatLng(0.0, 0.0));
-  double latitude = 0.0;
-  double longitude = 0.0;
   String stAddress = '';
   @override
   void initState() {
@@ -37,12 +34,10 @@ class _TagLocationScreenState extends State<TagLocationScreen> {
     super.initState();
     Future.delayed(Duration.zero, () async{
       await getLocationController.getUserCurrentLocation();
-      latitude = getLocationController.latitude;
-      longitude = getLocationController.longitude;
       stAddress = getLocationController.stAddress;
       if(kDebugMode){
-        print(latitude);
-        print(longitude);
+        print(getLocationController.latitude);
+        print(getLocationController.longitude);
       }
     });
 
@@ -98,20 +93,23 @@ class _TagLocationScreenState extends State<TagLocationScreen> {
 
                           borderRadius: BorderRadius.circular(20)
                       ),
-                      child: GoogleMap(
+                      child: getLocationController.getLocationStatus ? GoogleMap(
 
                         initialCameraPosition: CameraPosition(target: LatLng(getLocationController.latitude,getLocationController.longitude),
                             zoom: 15),
                         markers: Set<Marker>.of(<Marker>[
                           Marker(
                             markerId: MarkerId('1'),
-                            position: LatLng(latitude!,longitude!),
+                            position: LatLng(getLocationController.latitude,getLocationController.longitude),
                           ),
                         ]),
                         mapType: MapType.normal,
                         onMapCreated: (GoogleMapController controller){
                           _completer.complete(controller);
                         },
+                      ) :
+                      Center(
+                        child: Text("Loading Map..."),
                       ),
                     ),
                     SizedBox(height: size.height * 0.015,),
@@ -130,14 +128,14 @@ class _TagLocationScreenState extends State<TagLocationScreen> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text("Latitude: ${latitude}",
+                          Text("Latitude: ${getLocationController.latitude}",
                             style: GoogleFonts.openSans(
                                 fontSize: 15
                             ),
 
 
                           ),
-                      Text("Longitude: ${longitude}",
+                      Text("Longitude: ${getLocationController.longitude}",
                         style: GoogleFonts.openSans(
                             fontSize: 15
                         ),

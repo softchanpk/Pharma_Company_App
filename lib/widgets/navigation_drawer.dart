@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:sc_pharma_app/views/create_visit.dart';
 import 'package:sc_pharma_app/views/expense_recorder.dart';
 import 'package:sc_pharma_app/views/login.dart';
 import 'package:sc_pharma_app/views/reports_menu_screen.dart';
@@ -83,32 +84,22 @@ class NavigationDrawerScreen extends StatelessWidget {
                 ),),
               ),
             ),
-            ListTile(
-              leading: Image.asset('assets/images/scheduledrawer.png',height: 25,color: const Color(0xff420331),),
-              title: Text('Schedule',style: GoogleFonts.openSans(
-                  textStyle: const TextStyle(
-                      fontSize: 16,
-                      color: Color(0xff2d2f44),
-                      fontWeight: FontWeight.w700
-
-                  )
-              ),),
-            ),
             InkWell(
-              onTap: (){
-                Navigator.pushReplacement(context, PageTransition(child: ExpenseRecorder(userId!,userName!), type: PageTransitionType.rightToLeft));
-              },
               child: ListTile(
-                leading: Image.asset('assets/images/expensedrawer.png',height: 25,color: const Color(0xff420331),),
-                title: Text('Expense Recording',style: GoogleFonts.openSans(
+                leading: Image.asset('assets/images/scheduledrawer.png',height: 25,color: const Color(0xff420331),),
+                title: Text('New Schedule',style: GoogleFonts.openSans(
                     textStyle: const TextStyle(
-                        color: Color(0xff2d2f44),
                         fontSize: 16,
+                        color: Color(0xff2d2f44),
                         fontWeight: FontWeight.w700
 
                     )
                 ),),
               ),
+              onTap: (){
+                // new schedule
+                Navigator.pushReplacement(context, PageTransition(child: CreateVisitForm(userId!,userName!), type: PageTransitionType.rightToLeft));
+              },
             ),
             InkWell(
               onTap: (){
